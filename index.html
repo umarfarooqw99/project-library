@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Library</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>Library Project</h1>
+    <div>
+        <h2>Book Creation Form</h2>
+        <form>
+            <div>
+                <label for="title">Title</label>
+                <input type="text" id="title">
+            </div>
+            <div>
+                <label for="author">Author</label>
+                <input type="text" id="author">
+            </div>
+            <div>
+                <label for="pages">Pages</label>
+                <input type="text" id="pages">
+            </div>
+            <div>
+                <label>Have I read it?</label>
+                <input type="radio" name="isRead" value="0">No
+                <input type="radio" name="isRead" value="1" id="isRead">Yes
+            </div>
+            <div>
+                <button class="add-book">Add book</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <!-- Generate or remove table via javascript on clicking this button. Change table attribute to hidden -->
+        <!-- <button class="show-hide-table">Toggle show/hide books</button> -->
+    </div>
+
+    <!-- Temporary table: Remove it later -->
+    <table class="books-table">
+        <caption>Books</caption>
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Pages</th>
+                <th>Have I read it?</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr>
+                <td>1</td>
+                <td>Harry Potter</td>
+                <td>JK Rowling</td>
+                <td>400</td>
+                <td>No</td>
+                <td><button>Delete</button></td>
+            </tr> -->
+        </tbody>        
+    </table>
+</body>
+</html>
