@@ -1,26 +1,17 @@
-let myLibrary = [
-    // {
-    //     title: "Harry Potter",
-    //     author: "JK Rowling",
-    //     pages: 400,
-    //     isRead: true
-    // },
-    // {
-    //     title: "Lord of the Rings",
-    //     author: "JRR Tolkein",
-    //     pages: 700,
-    //     isRead: false
-    // },
-    // {
-    //     title: "Crime and Punishment",
-    //     author: "Fyodor Dostoyevsky",
-    //     pages: 300,
-    //     isRead: true
-    // },
-];
+const inputs = document.querySelectorAll('input');
+const title = document.querySelector('#title');
+const author = document.querySelector('#author');
+const pages = document.querySelector('#pages');
+const isReadYes = document.querySelector('#is-read-yes');
+const isReadNo = document.querySelector('#is-read-no');
+const addBookBtn = document.querySelector('.add-book');
+const table = document.querySelector('.books-table');
+const tableBody = document.querySelector('.books-table tbody');
+
+let myLibrary = [];
+displayBooks();
 
 function Book(title, author, pages, isRead) {
-    //constructor
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -34,10 +25,11 @@ function addBookToLibrary(title, author, pages, isRead) {
 }
 
 function displayBooks() {
-    const table = document.querySelector('.books-table');
-    const tableBody = document.querySelector('.books-table tbody');
+    // const table = document.querySelector('.books-table');
+    // const tableBody = document.querySelector('.books-table tbody');
     if(!myLibrary.length) {
         table.toggleAttribute("hidden");
+        return;
     }
     if(myLibrary.length && !(table.checkVisibility())) {
         table.toggleAttribute("hidden");
@@ -49,15 +41,19 @@ function displayBooks() {
         const serialNo = document.createElement('td');
         const deleteButtonContainer = document.createElement('td');
         const deleteButton = document.createElement('button');
+
         serialNo.textContent = index+1;
         deleteButton.textContent = "Delete";
         deleteButton.dataset.index = index;
         deleteButton.className = "delete";
         deleteButtonContainer.appendChild(deleteButton);
+
         row.appendChild(serialNo);
         const bookAttributes = Object.keys(book);
         bookAttributes.map(attribute => {
             const rowChild = document.createElement('td');
+            rowChild.className = attribute;
+            rowChild.dataset.index = index;
             if(typeof book[attribute] == "boolean") {
                 if(book[attribute]) rowChild.textContent = "Yes";
                 else rowChild.textContent = "No";
@@ -72,35 +68,39 @@ function displayBooks() {
     });
 }
 
-displayBooks();
-
-const addBookBtn = document.querySelector('.add-book');
+//Add a book
 addBookBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    const title = document.querySelector('#title');
-    const author = document.querySelector('#author');
-    const pages = document.querySelector('#pages');
-    const isRead = document.querySelector('#isRead');
+    //input validations
     if(!(title.value && author.value && pages.value)) return;
-    if(isRead.checked) addBookToLibrary(title.value, author.value, pages.value, true);
+    if(!(isReadYes.checked || isReadNo.checked)) return;
+
+    //object creation
+    if(isReadYes.checked) addBookToLibrary(title.value, author.value, pages.value, true);
     else addBookToLibrary(title.value, author.value, pages.value, false);
-    title.value = "";
-    author.value = "";
-    pages.value = "";
-    isRead.checked = false;
-})
 
-const showHideTable = document.querySelector('.show-hide-table');
-// showHideTable.addEventListener("click", () => {
-//     const tableBody = document.querySelector('.books-table');
-//     tableBody.toggleAttribute("hidden");
-// })
+    //reset inputs
+    inputs.forEach(input => {
+        if(input.type == "text") input.value = "";
+        else input.checked = false;
+    });
+    title.focus();
+});
 
-const table = document.querySelector('.books-table');
+//Delete a book
 table.addEventListener("click", (event) => {
-    debugger
     if(!(event.target.className == "delete")) return;
     const targetIndex = event.target.getAttribute("data-index");
     myLibrary.splice(targetIndex, 1);
+    displayBooks();
+});
+
+//Update the read status of a book
+table.addEventListener("click", (event) => {
+    if(!(event.target.className == "isRead")) return;
+    const bookIndex = event.target.getAttribute("data-index");
+    const book = myLibrary[bookIndex];
+    if(event.target.textContent == "Yes") book.isRead = false;
+    else book.isRead = true;
     displayBooks();
 })
