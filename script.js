@@ -1,3 +1,4 @@
+const pageBody = document.querySelector('body');
 const newBook = document.querySelector('.new-book');
 const closeFormBtn = document.querySelector('.cross');
 const dialog = document.querySelector('dialog');
@@ -69,10 +70,8 @@ function displayBooks() {
     });
 }
 
-//Add a book
-addBookBtn.addEventListener("click", (event) => {
+function addBookButtonEvent(event) {
     event.preventDefault();
-    //form validation
     if(!(title.value && author.value && pages.value)) return;
     if(!(isReadYes.checked || isReadNo.checked)) return;
 
@@ -85,34 +84,30 @@ addBookBtn.addEventListener("click", (event) => {
         if(input.type == "text") input.value = "";
         else input.checked = false;
     });
-    // title.focus();
     dialog.close();
-});
+}
 
-//Delete a book
-table.addEventListener("click", (event) => {
-    if(!(event.target.className == "delete")) return;
+function deleteBookEvent(event) {
     const targetIndex = event.target.getAttribute("data-index");
     myLibrary.splice(targetIndex, 1);
-    displayBooks();
-});
+    displayBooks();    
+}
 
-//Update the read status of a book
-table.addEventListener("click", (event) => {
-    if(!(event.target.className == "isRead")) return;
+function updateReadStatusEvent(event) {
     const bookIndex = event.target.getAttribute("data-index");
     const book = myLibrary[bookIndex];
     if(event.target.textContent == "Yes") book.isRead = false;
     else book.isRead = true;
     displayBooks();
-})
+}
 
-newBook.addEventListener("click", ()=> {
-    dialog.showModal();
+pageBody.addEventListener("click", (event)=> {
+    const eventTarget = event.target.className;
+    switch (eventTarget) {
+        case 'add-book': addBookButtonEvent(event); break;
+        case 'delete': deleteBookEvent(event); break;
+        case 'isRead': updateReadStatusEvent(event); break;
+        case 'new-book': dialog.showModal(); break;
+        case 'cross': dialog.close(); break;
+    }
 })
-
-closeFormBtn.addEventListener("click", () => {
-    dialog.close();
-})
-
-//create a single even listener whose logic depends upon className of target
