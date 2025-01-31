@@ -1,3 +1,6 @@
+const newBook = document.querySelector('.new-book');
+const closeFormBtn = document.querySelector('.cross');
+const dialog = document.querySelector('dialog');
 const inputs = document.querySelectorAll('input');
 const title = document.querySelector('#title');
 const author = document.querySelector('#author');
@@ -25,8 +28,6 @@ function addBookToLibrary(title, author, pages, isRead) {
 }
 
 function displayBooks() {
-    // const table = document.querySelector('.books-table');
-    // const tableBody = document.querySelector('.books-table tbody');
     if(!myLibrary.length) {
         table.toggleAttribute("hidden");
         return;
@@ -71,7 +72,7 @@ function displayBooks() {
 //Add a book
 addBookBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    //input validations
+    //form validation
     if(!(title.value && author.value && pages.value)) return;
     if(!(isReadYes.checked || isReadNo.checked)) return;
 
@@ -84,7 +85,8 @@ addBookBtn.addEventListener("click", (event) => {
         if(input.type == "text") input.value = "";
         else input.checked = false;
     });
-    title.focus();
+    // title.focus();
+    dialog.close();
 });
 
 //Delete a book
@@ -104,3 +106,13 @@ table.addEventListener("click", (event) => {
     else book.isRead = true;
     displayBooks();
 })
+
+newBook.addEventListener("click", ()=> {
+    dialog.showModal();
+})
+
+closeFormBtn.addEventListener("click", () => {
+    dialog.close();
+})
+
+//create a single even listener whose logic depends upon className of target
