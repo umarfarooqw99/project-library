@@ -70,7 +70,7 @@ function displayBooks() {
     });
 }
 
-function addBookButtonEvent(event) {
+function addBookEvent(event) {
     event.preventDefault();
     if(!(title.value && author.value && pages.value)) return;
     if(!(isReadYes.checked || isReadNo.checked)) return;
@@ -104,7 +104,7 @@ function updateReadStatusEvent(event) {
 pageBody.addEventListener("click", (event)=> {
     const eventTarget = event.target.className;
     switch (eventTarget) {
-        case 'add-book': addBookButtonEvent(event); break;
+        case 'add-book': addBookEvent(event); break;
         case 'delete': deleteBookEvent(event); break;
         case 'isRead': updateReadStatusEvent(event); break;
         case 'new-book': dialog.showModal(); break;
